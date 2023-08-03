@@ -9,7 +9,7 @@ def init_db():
     global db, cursor
 def create_table():
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS tovar(
+    CREATE TABLE IF NOT EXISTS product(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     title TEXT,
@@ -31,10 +31,10 @@ def create_table():
 
 def populate_tables():
     cursor.execute("""
-    INSERT INTO tovar(name, title, price)
-    VALUES ("Стразы", "камня свароского", "500"),
-           ("Стразы", "Пластикого", " 250"),
-           ("Стразы", "Стекло", "350")
+    INSERT INTO product(name, title, price)
+    VALUES ("JBL", "Колонки", "1200"),
+           ("Samsung Buds", "Наушники", "850"),
+           ("Logitech", "Клавиатура", "2600")
     """)
     db.commit()
 
@@ -50,22 +50,24 @@ def save_user_results(data):
                    )
     db.commit()
 
-
-
-
 def drop_tables():
     cursor.execute("""
-    DROP TABLE IF EXISTS tovar
+    DROP TABLE IF EXISTS product
     """)
     db.commit()
 
 
-def get_tovar():
-    tovar = cursor.execute("""
-    SELECT name , title , price FROM tovar;
+def get_product():
+    product = cursor.execute("""
+    SELECT name, title, price FROM product;
     """)
-    return tovar.fetchall()
-
+    products = product.fetchall()
+    product1 = products[0]
+    product2 = products[1]
+    product3 = products[2]
+    return f'{product1[0]}{product1[1]} Цена: {product1[2]}\n'\
+           f'{product2[0]}{product2[1]} Цена: {product2[2]}\n'\
+           f'{product3[0]}{product3[1]} Цена: {product3[2]}\n'
 
 if __name__ == "__main__":
     init_db()
